@@ -22,14 +22,14 @@ Duración estimada: 3 a 4 horas.
 5. Código fuente del proyecto
 6. Tests automatizados
 
-## Parte 1 – Preguntas  [x] (respuestas en [ANSWERS.md](./ANSWERS.md#parte-1---respuestas-teóricas))
+## Parte 1 – Preguntas (respuestas en [ANSWERS.md](./ANSWERS.md#parte-1---respuestas-teóricas))
 1. Explique la diferencia entre Middleware, Guard, Interceptor y Pipe en NestJS.
 2. ¿Cómo implementaría autorización basada en roles?
 3. ¿Qué problemas aparecen cuando un backend crece mucho y cómo NestJS ayuda a resolverlos?
 4. ¿Cómo manejaría configuración por ambiente (development, staging, production)?
 5. ¿Cómo evitaría que dos usuarios compren el último producto disponible al mismo tiempo?
 
-## Parte 2 – Análisis y Debugging [x] (respuestas en [ANSWERS.md](./ANSWERS.md#parte-2---análisis-y-debugging))
+## Parte 2 – Análisis y Debugging (respuestas en [ANSWERS.md](./ANSWERS.md#parte-2---análisis-y-debugging))
 1. Identifique al menos 5 problemas de arquitectura o diseño.
 2. Explique cómo refactorizaría esta implementación en un proyecto real de NestJS.
 
@@ -58,14 +58,14 @@ export class OrdersService {
 Desarrollar una API de gestión de tareas utilizando NestJS y PostgreSQL. La entidad Task debe
 contener los siguientes campos: id, title, description, status (pending | in_progress | done), priority
 (low | medium | high), createdAt, updatedAt.
-Endpoints requeridos
+### Endpoints requeridos
 1. POST /tasks – Crear tarea
 2. GET /tasks – Listar tareas con filtros por status y priority
 3. GET /tasks/:id – Obtener tarea por ID
 4. PATCH /tasks/:id – Actualizar tarea
 5. PATCH /tasks/:id/status – Cambiar estado
 6. DELETE /tasks/:id – Eliminar tarea
-Requisitos Técnicos
+### Requisitos Técnicos
 1. Arquitectura modular de NestJS
 2. Controllers y Services separados
 3. DTOs con validación usando class-validator
