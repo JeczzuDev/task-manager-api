@@ -21,7 +21,7 @@ paginación, soft delete, validación estricta de datos y manejo centralizado de
 
 1. **Clonar el repositorio**:
    ```bash
-   git clone <url-del-repositorio>
+   git clone https://github.com/JeczzuDev/task-manager-api.git
    cd task-manager-api
    ```
 
