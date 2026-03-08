@@ -5,11 +5,11 @@ paginación, soft delete, validación estricta de datos y manejo centralizado de
 
 ## Tecnologías
 
-- **NestJS 11** — Framework de Node.js con TypeScript
-- **TypeORM 0.3** — ORM con migraciones manuales
-- **PostgreSQL 16** — Base de datos relacional (via Docker)
-- **class-validator / class-transformer** — Validación y transformación de DTOs
-- **Joi** — Validación de variables de entorno al iniciar
+- **NestJS 11** - Framework de Node.js con TypeScript
+- **TypeORM 0.3** - ORM con migraciones manuales
+- **PostgreSQL 16** - Base de datos relacional (via Docker)
+- **class-validator / class-transformer** - Validación y transformación de DTOs
+- **Joi** - Validación de variables de entorno al iniciar
 
 ## Requisitos previos
 
@@ -77,27 +77,48 @@ paginación, soft delete, validación estricta de datos y manejo centralizado de
 
 ### Ejemplos de uso
 
+> Importar la colección de Postman incluida en el repositorio para probar todos
+> los endpoints de forma interactiva.
+> [Postman Collection](./tasks_manager_api.postman_collection.json)
+
 **Crear tarea:**
 ```bash
 curl -X POST http://localhost:3000/tasks \
   -H "Content-Type: application/json" \
   -d '{"title": "Mi primera tarea", "description": "Descripción opcional"}'
 ```
+```json
+// Respuesta (201 Created)
+{
+  "id": "a1b2c3d4-...",
+  "title": "Mi primera tarea",
+  "description": "Descripción opcional",
+  "status": "PENDING",
+  "priority": "MEDIUM",
+  "createdAt": "2025-01-15T10:30:00.000Z",
+  "updatedAt": "2025-01-15T10:30:00.000Z"
+}
+```
 
 **Listar con filtros y paginación:**
 ```bash
-curl "http://localhost:3000/tasks?status=PENDING&priority=HIGH&search=deploy&page=1&limit=10"
+curl "http://localhost:3000/tasks?status=PENDING&priority=HIGH&page=1&limit=5"
 ```
-
-**Parámetros de filtrado disponibles:**
-
-| Parámetro  | Tipo    | Valores posibles                      | Default |
-|------------|---------|---------------------------------------|---------|
-| `status`   | string  | `PENDING`, `IN_PROGRESS`, `DONE`      | —       |
-| `priority` | string  | `LOW`, `MEDIUM`, `HIGH`               | —       |
-| `search`   | string  | Texto libre (busca en título)         | —       |
-| `page`     | number  | >= 1                                  | 1       |
-| `limit`    | number  | 1-100                                 | 10      |
+```json
+// Respuesta (200 OK)
+{
+  "data": [
+    {
+      "id": "a1b2c3d4-...",
+      "title": "Mi primera tarea",
+      "status": "PENDING",
+      "priority": "HIGH",
+      "createdAt": "2025-01-15T10:30:00.000Z"
+    }
+  ],
+  "meta": { "page": 1, "limit": 5, "total": 1, "totalPages": 1 }
+}
+```
 
 **Actualizar estado:**
 ```bash
@@ -105,6 +126,26 @@ curl -X PATCH http://localhost:3000/tasks/<uuid>/status \
   -H "Content-Type: application/json" \
   -d '{"status": "DONE"}'
 ```
+```json
+// Respuesta (200 OK)
+{
+  "id": "a1b2c3d4-...",
+  "title": "Mi primera tarea",
+  "status": "DONE",
+  "priority": "MEDIUM",
+  "updatedAt": "2025-01-15T11:00:00.000Z"
+}
+```
+
+**Parámetros de filtrado disponibles:**
+
+| Parámetro  | Tipo    | Valores posibles                      | Default |
+|------------|---------|---------------------------------------|---------|
+| `status`   | string  | `PENDING`, `IN_PROGRESS`, `DONE`      | -       |
+| `priority` | string  | `LOW`, `MEDIUM`, `HIGH`               | -       |
+| `search`   | string  | Texto libre (busca en título)         | -       |
+| `page`     | number  | >= 1                                  | 1       |
+| `limit`    | number  | 1-100                                 | 10      |
 
 ## Scripts disponibles
 
@@ -169,4 +210,12 @@ src/
 
 MIT
 
+---
+
+<div align="center">
+
 Hecho con ❤️ por [@JecczuDev](https://github.com/JeczzuDev)
+
+[⬆ Volver arriba](#task-manager-api)
+
+</div>
