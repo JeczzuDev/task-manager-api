@@ -1,0 +1,204 @@
+{
+  "info": {
+    "_postman_id": "7f73d41f-aedc-444d-9169-4f0980afe701",
+    "name": "Tasks Manager API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "44734161"
+  },
+  "item": [
+    {
+      "name": "CreateTask",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"title\": \"Hola\",\r\n    \"description\": \"Task description\",\r\n    \"status\": \"pending\",\r\n    \"priority\": \"medium\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/tasks/",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "tasks",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetAllTasks",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/tasks",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "tasks"
+          ],
+          "query": [
+            {
+              "description": "Filter by status: pending | in_progress | done",
+              "value": "pending",
+              "key": "status",
+              "disabled": true
+            },
+            {
+              "description": "Filter by priority: low | medium | high",
+              "value": "high",
+              "key": "priority",
+              "disabled": true
+            },
+            {
+              "description": "Search in title and description (ILIKE)",
+              "value": "",
+              "key": "search",
+              "disabled": true
+            },
+            {
+              "description": "Page number (default: 1)",
+              "value": "1",
+              "key": "page",
+              "disabled": true
+            },
+            {
+              "description": "Items per page (default: 10)",
+              "value": "10",
+              "key": "limit",
+              "disabled": true
+            }
+          ]
+        },
+        "description": "Get all tasks with optional filters (status, priority, search) and pagination (page, limit)."
+      },
+      "response": []
+    },
+    {
+      "name": "GetTaskById",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/tasks/{{taskId}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "tasks",
+            "{{taskId}}"
+          ]
+        },
+        "description": "Get a single task by its UUID. Returns 404 if not found, 400 if invalid UUID."
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateTask",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\\n  \"title\": \"Updated task title\",\\n  \"description\": \"Now with a description\"\\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/tasks/{{taskId}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "tasks",
+            "{{taskId}}"
+          ]
+        },
+        "description": "Update task fields (title, description, status, priority). All fields are optional."
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateTaskStatus",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "value": "application/json",
+            "key": "Content-Type"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\\n  \"status\": \"in_progress\"\\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/tasks/{{taskId}}/status",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "tasks",
+            "{{taskId}}",
+            "status"
+          ]
+        },
+        "description": "Update only the status of a task. Valid values: pending | in_progress | done"
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteTask",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/tasks/{{taskId}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "tasks",
+            "{{taskId}}"
+          ]
+        },
+        "description": "Soft-delete a task by UUID. Returns 204 No Content on success."
+      },
+      "response": []
+    }
+  ]
+}
