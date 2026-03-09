@@ -5,11 +5,7 @@ paginación, soft delete, validación estricta de datos y manejo centralizado de
 
 ## Demo en video
 
-<video controls width="100%" height="auto">
-    <source src="demo-explicacion-task-manager-api.mp4" type="video/mp4">
-    Tu navegador no soporta el elemento de video.
-</video>
-
+https://github.com/user-attachments/assets/4578bd68-7d2e-4e27-bb49-b3895c622666
 > Video con walkthrough completo del proyecto:
 > - 0:00 - Instalación y configuración
 > - 1:26 - Verificación de endpoints con Postman
