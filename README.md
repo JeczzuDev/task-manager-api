@@ -3,6 +3,20 @@
 API REST para gestión de tareas construida con NestJS y PostgreSQL. Incluye filtros dinámicos,
 paginación, soft delete, validación estricta de datos y manejo centralizado de errores.
 
+## Demo en video
+
+<video controls width="100%" height="auto">
+    <source src="demo-explicacion-task-manager-api.mp4" type="video/mp4">
+    Tu navegador no soporta el elemento de video.
+</video>
+
+> Video con walkthrough completo del proyecto:
+> - 0:00 - Instalación y configuración
+> - 1:26 - Verificación de endpoints con Postman
+> - 3:26 - Ejecución de tests unitarios y end-to-end
+> - 4:04 - Explicación de decisiones técnicas y aprendizajes
+> - 10:33 - Análisis de arquitectura y conclusión
+
 ## Tecnologías
 
 - **NestJS 11** - Framework de Node.js con TypeScript
@@ -33,6 +47,7 @@ paginación, soft delete, validación estricta de datos y manejo centralizado de
 3. **Configurar variables de entorno**:
    ```bash
    cp .env.example .env
+   cp .env.example .env.test
    ```
    Editar `.env` si se necesitan valores diferentes. Los valores por defecto funcionan
    directamente con el `docker-compose.yml` incluido:
@@ -63,6 +78,13 @@ paginación, soft delete, validación estricta de datos y manejo centralizado de
    npm run start:dev
    ```
    El servidor estará disponible en `http://localhost:3000`.
+
+7. **Ejecutar tests**:
+   ```bash
+   npm test
+   npm run test:e2e
+   ```
+   Asegúrate de que la base de datos de test esté configurada correctamente en `.env.test`.
 
 ## Endpoints de la API
 
@@ -203,8 +225,30 @@ src/
   gestionan exclusivamente por migraciones.
 - **Validación en capas**: `ValidationPipe` global con `whitelist` y `forbidNonWhitelisted` para
   rechazar propiedades desconocidas. `Joi` para validar variables de entorno al arrancar.
-- **Exception filters**: Dos filtros globales separados — uno para `HttpException` y otro
-  catch-all para errores inesperados — con un formato de respuesta estandarizado.
+- **Exception filters**: Dos filtros globales separados, uno para `HttpException` y otro
+  catch-all para errores inesperados con un formato de respuesta estandarizado.
+
+### Aprendizajes durante el desarrollo
+
+Durante la resolución de este test técnico profundicé en varios temas que considero valiosos:
+
+- **Procesamiento asíncrono: colas vs eventos en memoria** Analicé las diferencias entre
+  BullMQ (persistencia en Redis, reintentos, progreso) y `@nestjs/event-emitter` (ligero, sin
+  garantías de entrega). Refiné mi criterio sobre cuándo usar cada patrón según los requisitos
+  de resiliencia.
+
+- **Indexación en PostgreSQL para búsqueda de texto** `ILIKE '%term%'` no puede usar índices
+  B-tree. Investigué cómo los índices GIN con `pg_trgm` resuelven esto a escala, una distinción
+  clave al diseñar APIs que van a crecer a millones de registros.
+
+- **Testing con PostgreSQL real vs alternativas in-memory** En Node.js/PostgreSQL no existe un
+  equivalente a H2 (Java/SpringBoot). Evalué SQLite en memoria, testcontainers y base de datos dedicada;
+  opté por PostgreSQL real con `synchronize: true` y DB de test separada para garantizar paridad
+  con producción.
+
+- **Diagramas Mermaid en documentación técnica** Integré diagramas de secuencia y flujo
+  directamente en Markdown por primera vez. Permite versionar la documentación de arquitectura
+  junto al código sin depender de herramientas externas.
 
 ## Licencia
 
