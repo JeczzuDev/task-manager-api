@@ -4,12 +4,20 @@ export class CreateTaskTable1737000000000 implements MigrationInterface {
   name = 'CreateTaskTable1737000000000';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `CREATE TYPE "task_status_enum" AS ENUM('pending', 'in_progress', 'done')`,
-    );
-    await queryRunner.query(
-      `CREATE TYPE "task_priority_enum" AS ENUM('low', 'medium', 'high')`,
-    );
+    await queryRunner.query(`
+      DO $$ BEGIN
+        CREATE TYPE "task_status_enum" AS ENUM('pending', 'in_progress', 'done');
+      EXCEPTION
+        WHEN duplicate_object THEN null;
+      END $$
+    `);
+    await queryRunner.query(`
+      DO $$ BEGIN
+        CREATE TYPE "task_priority_enum" AS ENUM('low', 'medium', 'high');
+      EXCEPTION
+        WHEN duplicate_object THEN null;
+      END $$
+    `);
     await queryRunner.query(`
       CREATE TABLE "task" (
         "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
@@ -35,7 +43,7 @@ export class CreateTaskTable1737000000000 implements MigrationInterface {
     await queryRunner.query(`DROP INDEX "IDX_task_priority"`);
     await queryRunner.query(`DROP INDEX "IDX_task_status"`);
     await queryRunner.query(`DROP TABLE "task"`);
-    await queryRunner.query(`DROP TYPE "task_priority_enum"`);
-    await queryRunner.query(`DROP TYPE "task_status_enum"`);
+    await queryRunner.query(`DROP TYPE IF EXISTS "task_priority_enum"`);
+    await queryRunner.query(`DROP TYPE IF EXISTS "task_status_enum"`);
   }
 }
